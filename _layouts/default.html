@@ -2,11 +2,11 @@
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'none';
-  script-src 'self';
+  script-src 'self' https://giraffeblog.goatcounter.com 'unsafe-inline'; 
   style-src 'self' https://fonts.googleapis.com;
   img-src 'self';
   font-src 'self' https://fonts.gstatic.com;
-  connect-src 'self' https://giraffeblog.goatcounter.com;
+  connect-src 'self' https://formspree.io https://giraffeblog.goatcounter.com;
   media-src 'self';
   object-src 'self';
   child-src 'self';
