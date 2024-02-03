@@ -33,4 +33,5 @@ plugins:
 header_pages:
   - index.markdown
   - whoami.markdown
+  - contact.markdown
 footer: 'lots of lub <3, follow me on <a href="https://twitter.com/Goofygiraffe06">twitter</a>'
