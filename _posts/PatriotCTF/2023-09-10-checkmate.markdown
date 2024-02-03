@@ -21,7 +21,7 @@ http://chal.pctf.competitivecyber.club:9096/
 
 The first thing we see is a regular login page with two input fields: name and password, accompanied by a button labeled "Hi :)". When you enter typical credentials, such as "admin" for both fields, it fails. The "wrong username" error might provide a scope to enumerate users. Looking at the source code using `ctrl+u`, it becomes evident that there is some logic we need to reverse engineer to get the correct name and password. Let's focus on the name for now:
 
-```
+```js
 function checkName(name){
 
     var check  = name.split("").reverse().join("");
@@ -37,7 +37,7 @@ The `checkName(name)` function takes the name as its parameter. It splits the st
 
 Let's repeat the procedure to find the correct username. First, let's identify the code snippet responsible for authentication, understand it, and then crack it.
 
-```
+```js
 function checkLength(pwd){
      return (password.length % 6 === 0)? true : false;
 }
