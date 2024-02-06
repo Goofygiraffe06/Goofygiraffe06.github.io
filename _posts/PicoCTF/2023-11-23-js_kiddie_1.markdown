@@ -129,68 +129,6 @@ PNG files have the ".png" file extension and the "image/png" MIME media type. PN
 
 But the interesting part that we require for this challenge is the PNG header also known as the PNG Signature. The image is broken because the header is shifted (let's call this corrupted header) using a key and we need to find the key that would let us get the header back in correct position so the image can be displayed correctly.
 
-![Image showing how big 10^16 is](https://i.imgur.com/YjqZssA.png)
-
-![Image Showing The PNG Signature](https://i.imgur.com/rlAqyGI.png)
-
-So, the expected header is `89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52`
-
-#### Building a Bruteforcer
-
-So, We need to write a python script that would iterate through each byte in `bytes` endpoint and tries to iterate through every shift value and match the corrupted header to the expected header and then we can save the the value of each shifter when they both match and construct some valid keys.
-
-```python
-import itertools
-import os
-
-def find_key(expected_header, bytes_data):
-    KEY_LEN = len(expected_header)
-    shifters = [[] for _ in range(KEY_LEN)]     # A list to store the possible keys.
-
-    for i in range(KEY_LEN):
-        for shifter in range(10):   # So, we can iterate through (0-9)
-            j = 0
-            offset = (((j + shifter) * KEY_LEN) % len(bytes_data)) + i      # Calculate the offset based on the shifter and current position in the key
-            if bytes_data[offset] == expected_header[i]:
-                shifters[i].append(shifter)
-
-    for p in itertools.product(*shifters):      # Iterating through all possible combinations of shift values for each pos.
-        key = "".join(map(str, p))
-        print("[!] Valid Key:", key)
-
-def main():
-    os.system("curl -L http://jupiter.challenges.picoctf.org:58112/bytes -o bytes > /dev/null 2>&1")    # Getting the bytes freshly from the website (if you are onwindows you can just comment this line and get your own bytes file)
-
-    expected_header = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52]
-
-    with open("bytes") as f:
-        bytes_data = list(map(int, f.read().split(" ")))
-
-    find_key(expected_header, bytes_data)
-
-if __name__ == "__main__":
-    main()
-```
-The script iterates through possible key combinations, aligning the bytes to reconstruct the PNG header until a match with the expected header is found. 
-
-```sh
-(venv) [giraffe@arch python]$ python3 chall.py
-[!] Valid Key: 4894748485167104
-[!] Valid Key: 4894748485267104
-[!] Valid Key: 4894748486167104
-[!] Valid Key: 4894748486267104
-
-```
-
-![Image showing final QR](https://i.imgur.com/RPeiefD.png)
-
-Running the script yields us only 4 possible keys for the header and then we can manually test those 4 keys in the input. After trying all the four valid keys, one of the keys should assemble correctly into a QR code, which upon scanning will give us the final flag.
-
-![Final Flag](https://i.imgur.com/TG015a6.png)
-
-You can follow me on twitter: @Goofygiraffe06
-But the interesting part that we require for this challenge is the PNG header also known as the PNG Signature. The image is broken because the header is shifted (let's call this corrupted header) using a key and we need to find the key that would let us get the header back in correct position so the image can be displayed correctly.
-
 ![Image showing how big 10^16 is](/assets/10_16_size.png)
 
 ![Image Showing The PNG Signature](/assets/png_header_wiki.png)
@@ -249,6 +187,3 @@ The script iterates through possible key combinations, aligning the bytes to rec
 Running the script yields us only 4 possible keys for the header and then we can manually test those 4 keys in the input. After trying all the four valid keys, one of the keys should assemble correctly into a QR code, which upon scanning will give us the final flag.
 
 ![Final Flag](/assets/jsk_flag.png)
-
-You can follow me on twitter: @Goofygiraffe06
-
