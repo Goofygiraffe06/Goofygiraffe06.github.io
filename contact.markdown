@@ -59,7 +59,7 @@ permalink: /contact
 <div id="successMessage"></div>
 <div id="errorMessage"></div>
 
-<script src="https://cdn.rawgit.com/travist/jsencrypt/master/bin/jsencrypt.min.js"></script>
+<script src="scripts/jsencrypt.min.js"></script>
 <script>
   const PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoiQ4oVwCDdwGy5Eq1x3e
